@@ -12,7 +12,7 @@ screen = pygame.display.set_mode((width,height))
 pygame.display.set_caption("Bijatyka")
 
 
-#Ustawienie frameratu
+#Ustawienie klatek
 clock = pygame.time.Clock()
 FPS = 60
 
@@ -39,7 +39,9 @@ while run:
     
     #Rysowanie tła
     drawBgc()
-    
+
+    #Ruch zawodników
+    fighter1.move(width)
     
     #Rysowanie postaci
     fighter1.drawFighter(screen)
