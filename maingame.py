@@ -58,16 +58,3 @@ while run:
     
 #Wyjscie z gry
 pygame.quit()
-
-
-
-#test4
-
-
-#test 1
-
-
-
-
-
-#próba merge
