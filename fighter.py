@@ -5,3 +5,10 @@ class Fighter():
         
     def drawFighter(self,surface):
         pygame.draw.rect(surface,(255,0,0),self.rect)
+        
+    def move(self):
+        speed = 10
+        deltaX = 0
+        deltaY = 0
+        #Get what key is pressed
+        keyPressed = pygame.key.get_pressed()
