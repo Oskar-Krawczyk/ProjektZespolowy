@@ -41,7 +41,7 @@ while run:
     drawBgc()
 
     #Ruch zawodników
-    fighter1.move(width)
+    fighter1.move(width, height)
     
     #Rysowanie postaci
     fighter1.drawFighter(screen)

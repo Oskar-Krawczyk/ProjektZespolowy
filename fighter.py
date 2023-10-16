@@ -2,13 +2,17 @@ import pygame
 class Fighter():
     def __init__(self,x,y):
         self.rect = pygame.Rect((x,y,80,180))
+        self.velocity_y = 0
+        self.jump = False
         
     def drawFighter(self,surface):
         pygame.draw.rect(surface,(255,0,0),self.rect)
         
-    def move(self, width):
+    def move(self, width, height):
         #Speed of character
         speed = 10
+        #Gravity
+        gravity = 2
         #To change X cordinates
         deltaX = 0
         #To change Y cordinates
@@ -20,11 +24,25 @@ class Fighter():
             deltaX = -speed
         if keyPressed[pygame.K_d]:
             deltaX = speed
-        #Ustawienie aby fighter nie wychodzil poza mape
+        #Jump
+        if keyPressed[pygame.K_w] and self.jump == False:
+            self.velocity_y = -30
+            self.jump = True
+
+        #Apply gravity
+        self.velocity_y += gravity
+        deltaY += self.velocity_y
+
+        #Setting limits for the map
         if self.rect.left + deltaX < 0:
-            deltaX = 0 - self.rect.left
+            deltaX = -self.rect.left
         if self.rect.right + deltaX > width:
             deltaX = width - self.rect.right
+        if self.rect.bottom + deltaY > height - 60:
+            self.velocity_y = 0
+            self.jump = False
+            deltaY = height - 60 - self.rect.bottom
+
 
         #Update player position
         self.rect.x += deltaX
