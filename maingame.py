@@ -59,4 +59,6 @@ while run:
 #Wyjscie z gry
 pygame.quit()
 
-#test
+
+#test 2
+
