@@ -47,3 +47,5 @@ class Fighter():
         #Update player position
         self.rect.x += deltaX
         self.rect.y += deltaY
+        
+        
