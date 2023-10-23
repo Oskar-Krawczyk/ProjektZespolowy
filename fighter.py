@@ -5,10 +5,12 @@ class Fighter():
         self.velocity_y = 0
         self.jump = False
         
+        self.attack_type = 0
+        
     def drawFighter(self,surface):
         pygame.draw.rect(surface,(255,0,0),self.rect)
         
-    def move(self, width, height):
+    def move(self, width, height, surface):
         #Speed of character
         speed = 10
         #Gravity
@@ -28,7 +30,15 @@ class Fighter():
         if keyPressed[pygame.K_w] and self.jump == False:
             self.velocity_y = -30
             self.jump = True
-
+        #attack
+        if keyPressed[pygame.K_r] or keyPressed[pygame.K_t]:
+            
+            self.attack(surface)
+            
+            if keyPressed[pygame.K_r]:
+                self.attack_type = 1
+            if keyPressed[pygame.K_t]:
+                self.attack_type = 2
         #Apply gravity
         self.velocity_y += gravity
         deltaY += self.velocity_y
@@ -48,4 +58,7 @@ class Fighter():
         self.rect.x += deltaX
         self.rect.y += deltaY
         
-        
+        #attack rectangle
+    def attack(self, surface):
+        attacking_rect = pygame.Rect(self.rect.centerx, self.rect.y, 2 * self.rect.width, self.rect.height)
+        pygame.draw.rect(surface, (0, 255, 0), attacking_rect)
