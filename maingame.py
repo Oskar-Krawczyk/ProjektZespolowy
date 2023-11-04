@@ -18,7 +18,7 @@ FPS = 60
 
 
 #Załadowanie tła
-bcgImage = pygame.image.load("assets/arena.jpg").convert_alpha()
+bcgImage = pygame.image.load("assets/dust2b.jpg").convert_alpha()
 
 
 #Funkcja rysowania tła
@@ -41,7 +41,7 @@ while run:
     drawBgc()
 
     #Ruch zawodników
-    fighter1.move(width, height, screen)
+    fighter1.move(width, height, screen, fighter2)
     
     #Rysowanie postaci
     fighter1.drawFighter(screen)
