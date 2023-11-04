@@ -3,7 +3,7 @@ from fighter import Fighter
 
 pygame.init()
 
-#Stworzenie okna gry
+#Create game window
 width = 1000
 height = 600
 
@@ -12,51 +12,63 @@ screen = pygame.display.set_mode((width,height))
 pygame.display.set_caption("Bijatyka")
 
 
-#Ustawienie klatek
+#Framerate setting
 clock = pygame.time.Clock()
 FPS = 60
 
+#Colors
+BLUE = (65, 105, 225)
+RED = (255, 0, 0)
 
-#Załadowanie tła
+#Load background
 bcgImage = pygame.image.load("assets/dust2b.jpg").convert_alpha()
 
 
-#Funkcja rysowania tła
+#Draw background function
 def drawBgc():
     scaled_bgc = pygame.transform.scale(bcgImage, (width, height))
     screen.blit(scaled_bgc, (0,0))
     
+#Draw healthbars function
+def drawHealthBars(health,x,y):
+    ratio = health/100
+    pygame.draw.rect(screen,RED,(x,y,400,35))
+    pygame.draw.rect(screen,BLUE,(x,y,400*ratio,35))
 
-#Stworzenie dwóch instancji klasy Fighter
+#Create 2 instance of fighter class
 fighter1 = Fighter(200,360)
 fighter2 = Fighter(700,360)
 
-#Pętla gry
+#Game loop
 run = True
 while run:
-    #Załadowanie frameratu   
+    #Laod framerate  
     clock.tick(FPS)
     
-    #Rysowanie tła
+    #Draw background
     drawBgc()
+    
+    #Draw healthbars
+    drawHealthBars(fighter1.playerHealth,20,20)
+    drawHealthBars(fighter2.playerHealth,580,20)
 
-    #Ruch zawodników
+    #Fighters move
     fighter1.move(width, height, screen, fighter2)
     
-    #Rysowanie postaci
+    #Draw fighters
     fighter1.drawFighter(screen)
     fighter2.drawFighter(screen)
 
     
-      #Wyjście z pętli
+      #Exit the loop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
         
       
-    #Aktualizacja ekranu o tło
+    #Update display
     pygame.display.update()
   
     
-#Wyjscie z gry
+#Exit the game
 pygame.quit()

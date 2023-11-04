@@ -9,6 +9,7 @@ class Fighter():
         self.attacking = False
              
         self.attack_type = 0
+        self.playerHealth = 100
         
     def drawFighter(self,surface):
         pygame.draw.rect(surface,(255,0,0),self.rect)
@@ -69,7 +70,7 @@ class Fighter():
     def attack(self, surface, target):
         self.attacking = True
         attacking_rect = pygame.Rect(self.rect.centerx, self.rect.y, 2 * self.rect.width, self.rect.height)       
-        if attacking_rect.colliderect(target.rect):
-            print("Trafienie")
+        if attacking_rect.colliderect(target.rect): #target == opposite player
+            target.playerHealth -= 10
         
         pygame.draw.rect(surface, (0, 255, 0), attacking_rect)
