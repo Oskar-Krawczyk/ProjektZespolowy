@@ -3,6 +3,7 @@ class Fighter():
     def __init__(self,x,y,data,spritesheet,animSteps):
         self.fighterSize = data[0]
         self.fighterScale = data[1]
+        self.fighterOffset = data[2]
         self.animList = self.loadFighterImages(spritesheet, animSteps)
         self.actionType = 0 #0:stand #1:move #2:jump #3:attack1 #4:attack2 #5:take_hit #6:death
         self.frameIndex = 0 #start animation type from the begining, and later increment to move through next frame of animation
@@ -19,8 +20,7 @@ class Fighter():
         self.playerHealth = 100
         
     def drawFighter(self,surface):
-        pygame.draw.rect(surface,(255,0,0),self.rect)
-        surface.blit(self.image, (self.rect.x, self.rect.y))
+        surface.blit(self.image, (self.rect.x - (self.fighterOffset[0] * self.fighterScale), self.rect.y - (self.fighterOffset[1] * self.fighterScale)))
         
         
     def loadFighterImages(self, spritesheet, animSteps):

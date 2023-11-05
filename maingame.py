@@ -25,9 +25,11 @@ fighter1Size = 126
 fighter2Size = 162
 fighter1Scale = 3.5
 fighter2Scale = 4
+fighter1Offset = [50,30]
+fighter2Offset = [72,56]
 
-fighter1Data = [fighter1Size, fighter1Scale]
-fighter2Data = [fighter2Size, fighter2Scale]
+fighter1Data = [fighter1Size, fighter1Scale, fighter1Offset]
+fighter2Data = [fighter2Size, fighter2Scale, fighter2Offset]
 
 #Load background
 bcgImage = pygame.image.load("assets/dust2b.jpg").convert_alpha()
