@@ -2,7 +2,11 @@ import pygame
 class Fighter():
     def __init__(self,x,y,data,spritesheet,animSteps):
         self.fighterSize = data[0]
+        self.fighterScale = data[1]
         self.animList = self.loadFighterImages(spritesheet, animSteps)
+        self.actionType = 0 #0:stand #1:move #2:jump #3:attack1 #4:attack2 #5:take_hit #6:death
+        self.frameIndex = 0 #start animation type from the begining, and later increment to move through next frame of animation
+        self.image = self.animList[self.actionType][self.frameIndex]
         self.flipPlayer = False
         self.rect = pygame.Rect((x,y,80,180))
         self.velocity_y = 0
@@ -16,6 +20,7 @@ class Fighter():
         
     def drawFighter(self,surface):
         pygame.draw.rect(surface,(255,0,0),self.rect)
+        surface.blit(self.image, (self.rect.x, self.rect.y))
         
         
     def loadFighterImages(self, spritesheet, animSteps):
@@ -26,7 +31,10 @@ class Fighter():
             imgTmpList = []
             for x in range(animation): #controls x of spritesheet
                 imgTmp = spritesheet.subsurface(x*self.fighterSize, y*self.fighterSize, self.fighterSize, self.fighterSize)
-                imgTmpList.append(imgTmp)
+                
+                imgTmpScaled = pygame.transform.scale(imgTmp, (self.fighterSize * self.fighterScale, self.fighterSize * self.fighterScale))
+                
+                imgTmpList.append(imgTmpScaled)
             y += 1
             animMainList.append(imgTmpList)
         return animMainList

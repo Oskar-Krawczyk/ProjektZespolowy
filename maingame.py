@@ -23,9 +23,11 @@ RED = (255, 0, 0)
 #Fighters variables
 fighter1Size = 126
 fighter2Size = 162
+fighter1Scale = 3.5
+fighter2Scale = 4
 
-fighter1Data = [fighter1Size]
-fighter2Data = [fighter2Size]
+fighter1Data = [fighter1Size, fighter1Scale]
+fighter2Data = [fighter2Size, fighter2Scale]
 
 #Load background
 bcgImage = pygame.image.load("assets/dust2b.jpg").convert_alpha()
