@@ -54,8 +54,8 @@ def drawHealthBars(health,x,y):
     pygame.draw.rect(screen,BLUE,(x,y,400*ratio,35))
 
 #Create 2 instance of fighter class
-fighter1 = Fighter(200,360,fighter1Data,fighter1Sheet,fighter1Animations)
-fighter2 = Fighter(700,360,fighter2Data,fighter2Sheet,fighter2Animations)
+fighter1 = Fighter(200,360,False,fighter1Data,fighter1Sheet,fighter1Animations)
+fighter2 = Fighter(700,360,True,fighter2Data,fighter2Sheet,fighter2Animations)
 
 #Game loop
 run = True
