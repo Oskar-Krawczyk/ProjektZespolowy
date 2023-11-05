@@ -1,6 +1,8 @@
 import pygame
 class Fighter():
-    def __init__(self,x,y):
+    def __init__(self,x,y,data,spritesheet,animSteps):
+        self.fighterSize = data[0]
+        self.animList = self.loadFighterImages(spritesheet, animSteps)
         self.flipPlayer = False
         self.rect = pygame.Rect((x,y,80,180))
         self.velocity_y = 0
@@ -14,6 +16,20 @@ class Fighter():
         
     def drawFighter(self,surface):
         pygame.draw.rect(surface,(255,0,0),self.rect)
+        
+        
+    def loadFighterImages(self, spritesheet, animSteps):
+        #extract images from spritesheets
+        y = 0
+        animMainList = [] #table of tables of specify animation type
+        for animation in animSteps: #controls y of spritesheet
+            imgTmpList = []
+            for x in range(animation): #controls x of spritesheet
+                imgTmp = spritesheet.subsurface(x*self.fighterSize, y*self.fighterSize, self.fighterSize, self.fighterSize)
+                imgTmpList.append(imgTmp)
+            y += 1
+            animMainList.append(imgTmpList)
+        return animMainList
         
     def move(self, width, height, surface, target):
         #Speed of character

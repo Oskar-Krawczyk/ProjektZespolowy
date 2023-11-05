@@ -20,9 +20,23 @@ FPS = 60
 BLUE = (65, 105, 225)
 RED = (255, 0, 0)
 
+#Fighters variables
+fighter1Size = 126
+fighter2Size = 162
+
+fighter1Data = [fighter1Size]
+fighter2Data = [fighter2Size]
+
 #Load background
 bcgImage = pygame.image.load("assets/dust2b.jpg").convert_alpha()
 
+#load fighters spritesheets
+fighter1Sheet = pygame.image.load("assets/f1.png").convert_alpha()
+fighter2Sheet = pygame.image.load("assets/f2.png").convert_alpha()
+
+#Define numbers of animation types for each character
+fighter1Animations = [10,8,3,7,6,3,11]
+fighter2Animations = [10,8,1,7,7,3,7]
 
 #Draw background function
 def drawBgc():
@@ -36,8 +50,8 @@ def drawHealthBars(health,x,y):
     pygame.draw.rect(screen,BLUE,(x,y,400*ratio,35))
 
 #Create 2 instance of fighter class
-fighter1 = Fighter(200,360)
-fighter2 = Fighter(700,360)
+fighter1 = Fighter(200,360,fighter1Data,fighter1Sheet,fighter1Animations)
+fighter2 = Fighter(700,360,fighter2Data,fighter2Sheet,fighter2Animations)
 
 #Game loop
 run = True
