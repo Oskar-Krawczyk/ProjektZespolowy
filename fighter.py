@@ -11,6 +11,8 @@ class Fighter():
         self.flipPlayer = flip
         self.rect = pygame.Rect((x,y,80,180))
         self.velocity_y = 0
+        self.running = False
+        self.updateTime = pygame.time.get_ticks()
         
         #Triggers
         self.jump = False 
@@ -50,6 +52,8 @@ class Fighter():
         deltaX = 0
         #To change Y cordinates
         deltaY = 0
+        #Change to no running state if you don't press the keys
+        self.running = False
         #Get what key is pressed
         keyPressed = pygame.key.get_pressed()
         
@@ -59,8 +63,10 @@ class Fighter():
             #Movement
             if keyPressed[pygame.K_a]:
                 deltaX = -speed
+                self.running = True
             if keyPressed[pygame.K_d]:
                 deltaX = speed
+                self.running = True
             #Jump
             if keyPressed[pygame.K_w] and self.jump == False: 
                 self.velocity_y = -30
@@ -99,6 +105,36 @@ class Fighter():
         self.rect.y += deltaY
         
         #attack rectangle
+
+    #handle animation updates
+
+    def update(self):
+        #check what action is performing
+        if self.running == True:
+            self.updateAction(1)
+
+        if self.running == False:
+            self.updateAction(0)
+
+        animationCooldown = 80
+        self.image = self.animList[self.actionType][self.frameIndex]
+        #check if  enough time has passed since the last update
+        if pygame.time.get_ticks() - self.updateTime > animationCooldown:
+            self.frameIndex += 1
+            self.updateTime = pygame.time.get_ticks()
+        #check if the animation has finished
+        if self.frameIndex >= len(self.animList[self.actionType]):
+            self.frameIndex = 0
+
+
+    def updateAction(self, newAction):
+        #check if the new ation is diffrent than previous
+        if newAction != self.actionType:
+            self.actionType = newAction
+            #update animation settings
+            self.frameIndex = 0
+            self.updateTime = pygame.time.get_ticks()
+
     def attack(self, surface, target):
         self.attacking = True
         attacking_rect = pygame.Rect(self.rect.centerx - (2 * self.rect.width * self.flipPlayer), self.rect.y, 2 * self.rect.width, self.rect.height)       
