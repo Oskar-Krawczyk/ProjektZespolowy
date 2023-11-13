@@ -17,8 +17,7 @@ class Fighter():
         #Triggers
         self.jump = False 
         self.attacking = False
-             
-        self.attack_type = 0
+        self.attackType = 0
         self.playerHealth = 100
         
     def drawFighter(self,surface):
@@ -54,6 +53,8 @@ class Fighter():
         deltaY = 0
         #Change to no running state if you don't press the keys
         self.running = False
+        #Reset Attack
+        self.attackType = 0
         #Get what key is pressed
         keyPressed = pygame.key.get_pressed()
         
@@ -76,9 +77,9 @@ class Fighter():
                 self.attack(surface, target)
                 #Create 2 type of attack
                 if keyPressed[pygame.K_r]:
-                    self.attack_type = 1
+                    self.attackType = 1
                 if keyPressed[pygame.K_t]:
-                    self.attack_type = 2
+                    self.attackType = 2
                 
         #Apply gravity
         self.velocity_y += gravity
@@ -110,11 +111,17 @@ class Fighter():
 
     def update(self):
         #check what action is performing
-        if self.running == True:
-            self.updateAction(1)
-
-        if self.running == False:
-            self.updateAction(0)
+        if self.attacking == True:
+            if self.attackType == 1:
+                self.updateAction(3)    #3 attack1
+            elif self.attackType == 2:
+                self.updateAction(4)    #4 attack2
+        elif self.jump == True:
+            self.updateAction(2)    #2 jump
+        elif self.running == True:
+            self.updateAction(1)    #1 run
+        else:
+            self.updateAction(0)    #0 idle
 
         animationCooldown = 80
         self.image = self.animList[self.actionType][self.frameIndex]
