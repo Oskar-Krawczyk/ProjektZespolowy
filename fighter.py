@@ -388,4 +388,8 @@ class Fighter():
                 target.playerHealth -= 10
                 target.hit = True
             pygame.draw.rect(surface, (0, 255, 0), attacking_rect)
+<<<<<<< HEAD
 >>>>>>> 9d7af3634b60a9a8b7be0745044387a0776ddb9f
+=======
+
+>>>>>>> 96236576a52fc1f1d4e4646fdef27c4a186c41bf
