@@ -201,3 +201,6 @@ class Fighter:
                 target.playerHealth -= 10
                 target.hit = True
             pygame.draw.rect(surface, (0, 255, 0), attacking_rect)
+
+
+# kom
