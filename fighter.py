@@ -2,7 +2,8 @@ import pygame
 
 
 class Fighter:
-    def __init__(self, x, y, flip, data, spritesheet, animSteps):
+    def __init__(self, player, x, y, flip, data, spritesheet, animSteps, sound):
+        self.player = player
         self.fighterSize = data[0]
         self.fighterScale = data[1]
         self.fighterOffset = data[2]
@@ -13,7 +14,7 @@ class Fighter:
         self.frameIndex = 0  # start animation type from the begining, and later increment to move through next frame of animation
         self.image = self.animList[self.actionType][self.frameIndex]
         self.flipPlayer = flip
-        self.rect = pygame.Rect((x, y, 80, 180))
+        self.rect = pygame.Rect((x, y, 80 + 10, 180 + 20))
         self.velocity_y = 0
         self.running = False
         self.updateTime = pygame.time.get_ticks()
@@ -26,6 +27,7 @@ class Fighter:
         self.hit = False
         self.playerHealth = 100
         self.alive = True
+        self.attack_sound = sound
 
     def drawFighter(self, surface):
         fighterImage = pygame.transform.flip(self.image, self.flipPlayer, False)
@@ -65,7 +67,7 @@ class Fighter:
             animMainList.append(imgTmpList)
         return animMainList
 
-    def move(self, width, height, surface, target):
+    def move(self, width, height, surface, target, round_end):
         # Speed of character
         speed = 10
         # Gravity
@@ -82,26 +84,50 @@ class Fighter:
         keyPressed = pygame.key.get_pressed()
 
         # Check if you attacking. If yes you cannot do any other actions
-        if self.attacking == False:
-            # Movement
-            if keyPressed[pygame.K_a]:
-                deltaX = -speed
-                self.running = True
-            if keyPressed[pygame.K_d]:
-                deltaX = speed
-                self.running = True
-            # Jump
-            if keyPressed[pygame.K_w] and self.jump == False:
-                self.velocity_y = -30
-                self.jump = True
-            # attack
-            if keyPressed[pygame.K_r] or keyPressed[pygame.K_t]:
-                self.attack(surface, target)
-                # Create 2 type of attack
-                if keyPressed[pygame.K_r]:
-                    self.attackType = 1
-                if keyPressed[pygame.K_t]:
-                    self.attackType = 2
+        if self.attacking == False and self.alive == True and round_end == False:
+            # check player 1 controls
+            if self.player == 1:
+                # Movement
+                if keyPressed[pygame.K_a]:
+                    deltaX = -speed
+                    self.running = True
+                if keyPressed[pygame.K_d]:
+                    deltaX = speed
+                    self.running = True
+                # Jump
+                if keyPressed[pygame.K_w] and self.jump == False:
+                    self.velocity_y = -30
+                    self.jump = True
+                # attack
+                if keyPressed[pygame.K_r] or keyPressed[pygame.K_t]:
+                    self.attack(surface, target)
+                    # Create 2 type of attack
+                    if keyPressed[pygame.K_r]:
+                        self.attackType = 1
+                    if keyPressed[pygame.K_t]:
+                        self.attackType = 2
+
+            # check player 2 controls
+            if self.player == 2:
+                # Movement
+                if keyPressed[pygame.K_LEFT]:
+                    deltaX = -speed
+                    self.running = True
+                if keyPressed[pygame.K_RIGHT]:
+                    deltaX = speed
+                    self.running = True
+                # Jump
+                if keyPressed[pygame.K_UP] and self.jump == False:
+                    self.velocity_y = -30
+                    self.jump = True
+                # attack
+                if keyPressed[pygame.K_o] or keyPressed[pygame.K_p]:
+                    self.attack(surface, target)
+                    # Create 2 type of attack
+                    if keyPressed[pygame.K_o]:
+                        self.attackType = 1
+                    if keyPressed[pygame.K_p]:
+                        self.attackType = 2
 
         # Apply gravity
         self.velocity_y += gravity
@@ -191,16 +217,17 @@ class Fighter:
     def attack(self, surface, target):
         if self.attackCooldown == 0:
             self.attacking = True
+            self.attack_sound.play()
+
+            extra_attack_range = 50
+
+            attack_width = 2 * self.rect.width + extra_attack_range
             attacking_rect = pygame.Rect(
-                self.rect.centerx - (2 * self.rect.width * self.flipPlayer),
+                self.rect.centerx - (attack_width * self.flipPlayer),
                 self.rect.y,
-                2 * self.rect.width,
+                attack_width,
                 self.rect.height,
             )
             if attacking_rect.colliderect(target.rect):  # target == opposite player
                 target.playerHealth -= 10
                 target.hit = True
-            pygame.draw.rect(surface, (0, 255, 0), attacking_rect)
-
-
-# kom
