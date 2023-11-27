@@ -70,18 +70,35 @@ count_font = pygame.font.Font("assets/font/countfont.ttf", 40)
 
 # Def draw count text
 def draw_text(text, font, text_col, x, y):
+    """Wyświetlanie tekstu na ekranie.
+
+        Parameters:
+        - text (str): Tekst do wyświetlenia.
+        - font (Font): Czcionka tekstu.
+        - text_col (tuple): Kolor tekstu.
+        - x (int): Współrzędna x tekstu.
+        - y (int): Współrzędna y tekstu.
+    """
     img = font.render(text, True, text_col)
     screen.blit(img, (x, y))
 
 
 # Draw background function
 def drawBgc():
+    """Rysowanie tła gry."""
     scaled_bgc = pygame.transform.scale(bcgImage, (width, height))
     screen.blit(scaled_bgc, (0, 0))
 
 
 # Draw healthbars function
 def drawHealthBars(health, x, y):
+    """Rysowanie pasków życia postaci.
+
+        Parameters:
+        - health (int): Wartość życia postaci.
+        - x (int): Współrzędna x paska życia.
+        - y (int): Współrzędna y paska życia.
+    """
     ratio = health / 100
     pygame.draw.rect(screen, RED, (x, y, 400, 35))
     pygame.draw.rect(screen, BLUE, (x, y, 400 * ratio, 35))
@@ -179,3 +196,5 @@ while run:
 
 # Exit the game
 pygame.quit()
+
+
