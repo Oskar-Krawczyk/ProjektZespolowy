@@ -4,7 +4,7 @@ import pygame
 class Fighter:
     def __init__(self, player, x, y, flip, data, spritesheet, animSteps, sound):
         """
-            Tworzy obiekt postaci.
+            Tworzy obiekt postaci przy pomocy zawartych funkcji.
 
             Parametry:
             - player (int): Numer gracza (1 lub 2).
@@ -62,7 +62,7 @@ class Fighter:
     def loadFighterImages(self, spritesheet, animSteps):
 
         """
-            Ładuje obrazy postaci z arkusza sprite'ów.
+            Ładuje obrazy postaci z arkusza sprite'ów. Przy pomocy pętel for wyłuskuje z arkusza sprite'ów klatki odpowedzialne za konkretną animacje i umieszcza je w osobnych tabelach aby na końcu pomniejsze tabele z animacjami umieścić w jednej tabeli.
 
             Parametry:
             - spritesheet (Surface): Arkusz sprite'ów postaci.
@@ -101,6 +101,8 @@ class Fighter:
     def move(self, width, height, surface, target, round_end):
         """
             Obsługuje ruch postaci.
+            
+            Ta funkcja odpowiada za ruch postaci na ekranie. Sprawdza wciśnięte klawisze, aby określić, czy postać powinna się poruszać, skakać lub atakować. Kontroluje również ograniczenia ruchu postaci zgodnie z granicami ekranu i logiką gry. Obsługuje działanie grawitacji na postacie, zapewnia, że postacie są zawsze do siebie zwrócone twarzą
 
             Parametry:
             - width (int): Szerokość ekranu.
@@ -141,7 +143,7 @@ class Fighter:
                     self.jump = True
                 # attack
                 if keyPressed[pygame.K_r] or keyPressed[pygame.K_t]:
-                    self.attack(surface, target)
+                    self.attack(target)
                     # Create 2 type of attack
                     if keyPressed[pygame.K_r]:
                         self.attackType = 1
@@ -163,7 +165,7 @@ class Fighter:
                     self.jump = True
                 # attack
                 if keyPressed[pygame.K_o] or keyPressed[pygame.K_p]:
-                    self.attack(surface, target)
+                    self.attack(target)
                     # Create 2 type of attack
                     if keyPressed[pygame.K_o]:
                         self.attackType = 1
@@ -203,7 +205,11 @@ class Fighter:
     # handle animation updates
 
     def update(self):
-        """Aktualizuje stan postaci."""
+        """
+            Aktualizuje stan postaci.
+            
+            Ta funkcja sprawdza aktualne działanie postaci - czy jest martwa, wykonuje atak, ruch, skok, czy odbieranie obrażeń. Aktualizuje również animacje postaci w zależności od jej obecnego stanu. Dodatkowo zapobiega zapętleniu animacji śmierci gdy gracz umrze, ustawia opóżnienie możliwości wykonania kolejnego ataku po sobie oraz ataku po otrzymaniu obrażeń         
+        """
         # check what action is performing
 
         if self.playerHealth <= 0:
@@ -250,7 +256,7 @@ class Fighter:
 
     def updateAction(self, newAction):
         """
-           Aktualizuje typ akcji postaci.
+           Aktualizuje typ akcji postaci jeśli nowa akcja jest różna od poprzedniej.
 
            Parametry:
            - newAction (int): Nowy typ akcji postaci.
@@ -262,9 +268,9 @@ class Fighter:
             self.frameIndex = 0
             self.updateTime = pygame.time.get_ticks()
 
-    def attack(self, surface, target):
+    def attack(self, target):
         """
-            Obsługuje atak postaci.
+            Obsługuje atak postaci. W skład tego wchodzi odtworzenie dźwięku po ataku, zasięg ataku, reakcja drugiego gracza na otrzymanie ataku, aktualizacja wartości paska życia
 
             Parametry:
             - surface (Surface): Powierzchnia do rysowania postaci.
